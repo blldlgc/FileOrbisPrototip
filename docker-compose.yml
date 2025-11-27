@@ -1,10 +1,9 @@
-
 services:
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: fileorbis_mssql
     environment:
-      SA_PASSWORD: "1234"
+      SA_PASSWORD: "Test1234."
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
@@ -17,7 +16,7 @@ services:
       dockerfile: Dockerfile
     container_name: fileorbis_backend
     environment:
-      ConnectionStrings__DefaultConnection: "Server=mssql;Database=FileOrbisDB;User Id=sa;Password=1234"
+      ConnectionStrings__DefaultConnection: "Server=mssql;Database=FileOrbisDB;User Id=sa;Password=Test1234.;Encrypt=False;TrustServerCertificate=True"
     ports:
       - "5089:8080"
     volumes:
