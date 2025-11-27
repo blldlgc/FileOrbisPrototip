@@ -28,6 +28,8 @@ export function UserList() {
       setLoading(true);
       setError(null);
       const data = await getUsers();
+      console.log('Loaded users:', data);
+      console.log('First user profileImage:', data[0]?.profileImage);
       setUsers(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Kullanıcılar yüklenemedi');
@@ -87,7 +89,9 @@ export function UserList() {
     if (!profileImage) return undefined;
     // Eğer tam URL ise direkt döndür, değilse API base URL ekle
     if (profileImage.startsWith('http')) return profileImage;
-    return `${import.meta.env.VITE_API_URL || 'http://localhost:5089'}/${profileImage}`;
+    // Backend'den gelen path'i tam URL'ye çevir
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5089';
+    return `${baseUrl}/${profileImage}`;
   };
 
   if (loading) {
@@ -144,7 +148,13 @@ export function UserList() {
                   <TableRow key={user.id}>
                     <TableCell>
                       <Avatar>
-                        <AvatarImage src={getImageUrl(user.profileImage)} alt={user.name} />
+                        <AvatarImage 
+                          src={user.profileImage ? getImageUrl(user.profileImage) : undefined} 
+                          alt={user.name}
+                          onError={() => {
+                            console.error('Image load error for user:', user.name, 'URL:', getImageUrl(user.profileImage));
+                          }}
+                        />
                         <AvatarFallback>
                           {user.name.charAt(0).toUpperCase()}
                         </AvatarFallback>

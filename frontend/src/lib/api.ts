@@ -1,4 +1,3 @@
-// API service layer - Backend entegrasyonu için
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5089/api';
 
@@ -29,7 +28,14 @@ export async function getUsers(): Promise<User[]> {
   if (!response.ok) {
     throw new Error('Kullanıcılar yüklenemedi');
   }
-  return response.json();
+  const data = await response.json();
+  // Backend'den gelen profileImagePath'i profileImage'a map et
+  return data.map((user: any) => ({
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    profileImage: user.profileImagePath || undefined
+  }));
 }
 
 // Tek kullanıcı getir
@@ -38,7 +44,13 @@ export async function getUser(id: number): Promise<User> {
   if (!response.ok) {
     throw new Error('Kullanıcı yüklenemedi');
   }
-  return response.json();
+  const data = await response.json();
+  return {
+    id: data.id,
+    name: data.name,
+    email: data.email,
+    profileImage: data.profileImagePath || undefined
+  };
 }
 
 // Yeni kullanıcı oluştur
@@ -61,7 +73,13 @@ export async function createUser(userData: CreateUserDto): Promise<User> {
     throw new Error(error || 'Kullanıcı oluşturulamadı');
   }
 
-  return response.json();
+  const data = await response.json();
+  return {
+    id: data.id,
+    name: data.name,
+    email: data.email,
+    profileImage: data.profileImagePath || undefined
+  };
 }
 
 // Kullanıcı güncelle
@@ -84,7 +102,13 @@ export async function updateUser(id: number, userData: UpdateUserDto): Promise<U
     throw new Error(error || 'Kullanıcı güncellenemedi');
   }
 
-  return response.json();
+  const data = await response.json();
+  return {
+    id: data.id,
+    name: data.name,
+    email: data.email,
+    profileImage: data.profileImagePath || undefined
+  };
 }
 
 // Kullanıcı sil

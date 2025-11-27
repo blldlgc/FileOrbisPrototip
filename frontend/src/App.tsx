@@ -6,10 +6,7 @@ function App() {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto py-8 px-4">
         <header className="mb-8">
-          <h1 className="text-4xl font-bold tracking-tight">FileOrbis</h1>
-          <p className="text-muted-foreground mt-2">
-            Kullanıcı Yönetim Sistemi
-          </p>
+          <h1 className="text-4xl font-bold tracking-tight">Kullanıcı Yönetim Sistemi</h1>
         </header>
         <UserList />
       </div>

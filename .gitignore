@@ -12,6 +12,4 @@ frontend/build/
 # Logs
 *.log
 
-# Agent
-.agent/
-project_progress.md
+

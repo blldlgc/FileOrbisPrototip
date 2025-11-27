@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -23,9 +23,22 @@ export function UserForm({ onSubmit, initialData, isEditing = false, onCancel }:
   const [email, setEmail] = useState(initialData?.email || '');
   const [password, setPassword] = useState('');
   const [profileImage, setProfileImage] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(initialData?.profileImage || null);
+  // Preview için URL oluştur 
+  const getPreviewUrl = (img?: string) => {
+    if (!img) return null;
+    if (img.startsWith('http') || img.startsWith('data:')) return img;
+    return `${import.meta.env.VITE_API_URL || 'http://localhost:5089'}/${img}`;
+  };
+  const [preview, setPreview] = useState<string | null>(getPreviewUrl(initialData?.profileImage) || null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // initialData değiştiğinde preview'ı güncelle
+  useEffect(() => {
+    if (initialData?.profileImage && !profileImage) {
+      setPreview(getPreviewUrl(initialData.profileImage));
+    }
+  }, [initialData?.profileImage]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

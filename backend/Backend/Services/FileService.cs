@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 
-
 namespace Backend.Services
 {
     public class FileService
@@ -26,10 +25,6 @@ namespace Backend.Services
             
             if (!allowedExtensions.Contains(fileExtension))
                 throw new ArgumentException("Geçersiz dosya formatı. Sadece resim dosyaları kabul edilir.");
-
-            // Dosya boyutunu kontrol et (max 5MB)
-            if (file.Length > 5 * 1024 * 1024)
-                throw new ArgumentException("Dosya boyutu çok büyük. Maksimum 5MB olmalıdır.");
 
             // Benzersiz dosya adı oluştur
             var fileName = $"{Guid.NewGuid()}{fileExtension}";
