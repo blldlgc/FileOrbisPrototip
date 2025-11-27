@@ -17,5 +17,5 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 COPY --from=build /app/Backend/out ./
-EXPOSE 5089
+EXPOSE 8080
 ENTRYPOINT ["dotnet", "Backend.dll"]
