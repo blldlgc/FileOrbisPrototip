@@ -1,17 +1,21 @@
+# Use official .NET 9 SDK image
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+
 WORKDIR /app
 
-COPY *.csproj ./
-RUN dotnet restore
 
-COPY . ./
+COPY Backend/*.csproj ./Backend/
+RUN dotnet restore ./Backend/*.csproj
+
+
+COPY Backend/. ./Backend/
+
+WORKDIR /app/Backend
 RUN dotnet publish -c Release -o out
 
+# Runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
-COPY --from=build /app/out .
-
-ENV ASPNETCORE_URLS=http://+:5089
+COPY --from=build /app/Backend/out ./
 EXPOSE 5089
-
 ENTRYPOINT ["dotnet", "Backend.dll"]
