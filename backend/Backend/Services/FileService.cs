@@ -42,7 +42,7 @@ namespace Backend.Services
                 await file.CopyToAsync(stream);
             }
 
-            // Relative path döndür (API'den erişilebilir olması için)
+            
             return Path.Combine(UploadsFolder, ProfileImagesFolder, fileName).Replace("\\", "/");
         }
 

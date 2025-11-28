@@ -44,7 +44,7 @@ using (var scope = app.Services.CreateScope())
     {
         try
         {
-            // Direkt EnsureCreated() çalıştır - bu hem bağlantıyı test eder hem tabloyu oluşturur
+            
             dbContext.Database.EnsureCreated();
             connected = true;
             logger.LogInformation("Veritabanı bağlantısı başarılı ve tablolar hazır.");
@@ -59,9 +59,8 @@ using (var scope = app.Services.CreateScope())
             }
             else
             {
-                // Son denemede de başarısız olursa, tablo zaten var olabilir - uygulama devam etsin
                 logger.LogWarning(ex, "Veritabanı bağlantısı kurulamadı veya tablo zaten mevcut. Uygulama devam ediyor...");
-                connected = true; // Devam et, belki tablo zaten var
+                connected = true; 
             }
         }
     }
